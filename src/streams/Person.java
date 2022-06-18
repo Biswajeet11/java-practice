@@ -1,7 +1,6 @@
 package streams;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Person {
@@ -47,7 +46,8 @@ public class Person {
                 new Person(13,"Anthony", "Germany"),
                 new Person(35,"Jim", "USA"),
                 new Person(15,"Sam", "UK"),
-                new Person(25,"Peter", "UAE")
+                new Person(25,"Peter", "Ukraine"),
+                new Person(25,"Peitro", "Russia")
         );
 
 
@@ -59,6 +59,8 @@ public class Person {
 
         System.out.println("ageValue "+ ageValue);
 
+
+        System.out.println("------List of person who are either greater than 20 or contain a vowel in their name-------");
         /* List of person who are either greater than 20 or contain a vowel in their name*/
         List<String> vowelList = Arrays.asList("a","e","i","o","u");
 
@@ -70,6 +72,58 @@ public class Person {
         /* Create list of people sorted in ascending order on the basis of age,
             if age is the same then sort in descending order of name
         */
+
+        System.out.println("--------people sorted in ascending order on the basis of age  if age is the same then sort in descending order of name----------");
+        personList.sort(Comparator.comparing(Person::getAge).
+                thenComparing(Comparator.comparing(Person::getName)).reversed());
+
+        personList.forEach(p->System.out.println(p.getName() + " " + p.getAge()));
+
+
+        /*  Create a map from this people list where the key is country name and value is count which means
+         a map will tell how many people live in a particular country
+        */
+
+        System.out.println("--------people list where the key is country name and value is count which means a map will tell how many people live in a particular country----------");
+
+        Map<String,Long> countryMap = personList.stream().collect(
+                Collectors.groupingBy(Person::getCountry,Collectors.counting()));
+
+        countryMap.forEach((k,v)-> System.out.println("country"+ " " + k + " "+ "count" + " " + v));
+
+        /** Create a map which stores avg age of people
+         *  per country (key should be country and value should be average age i.e, double)
+         */
+
+        System.out.println("--------avg age of people per country----------");
+
+        Map<String,Double> avgAgeCountryMap = personList.stream().collect(
+                Collectors.groupingBy(Person::getCountry,Collectors.averagingDouble(Person::getAge)));
+
+        avgAgeCountryMap.forEach((k,v)->System.out.println("country"+ " " + k + " "+ "avg" + " " + v));
+
+        /*
+        Print the oldest person in every country
+        */
+
+
+        System.out.println("-------oldest person in every country-----------");
+        Map<String, Optional<Person>> oldestAgeCountryMap= personList.stream().collect(Collectors.groupingBy(Person::getCountry,
+                Collectors.maxBy(Comparator.comparing(Person::getAge))));
+
+
+        oldestAgeCountryMap.forEach((k,v)-> System.out.println("Country "+ k + " oldest age " +  v.get().getAge()));
+
+
+        System.out.println("------------------");
+
+       /* Print the country with most people */
+        String country = Collections.max(countryMap.entrySet(),Comparator.comparing(Map.Entry::getValue)).getKey();
+
+        System.out.println("country with most people "+country);
+
+
+
 
     }
 
