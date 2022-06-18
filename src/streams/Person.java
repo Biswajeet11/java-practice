@@ -122,10 +122,13 @@ public class Person {
 
         System.out.println("country with most people "+country);
 
+        /* Create a list of 20 random integers in the range 0 - 1000 using Java 8 streams */
 
+        Random random = new Random();
+        List<Integer> list = random.ints(20,0,1000).boxed().toList();
 
+        System.out.println("list of 20 random integers in the range 0 - 1000  "+ list);
 
     }
-
 
 }
