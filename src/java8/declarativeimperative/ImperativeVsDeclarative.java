@@ -1,4 +1,4 @@
-package declarativeimperative;
+package java8.declarativeimperative;
 
 import java.util.stream.IntStream;
 
