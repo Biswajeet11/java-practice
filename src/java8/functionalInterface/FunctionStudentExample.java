@@ -15,7 +15,9 @@ public class FunctionStudentExample {
         Map<String,Double> studentGpaMap = new HashMap<>();
 
         students.forEach(student -> {
-            studentGpaMap.put(student.getName(),student.getGpa());
+            if(PredicateStudentExample.p2.test(student)) {
+                studentGpaMap.put(student.getName(), student.getGpa());
+            }
         });
         return studentGpaMap;
     });
